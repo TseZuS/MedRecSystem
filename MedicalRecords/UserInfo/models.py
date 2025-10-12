@@ -5,7 +5,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from localflavor.us.models import USStateField
 
 class UserManager(BaseUserManager):
-    def _create_user(self, email, password, **extra_fields):
+    def create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError('The Email must be set')
         email = self.normalize_email(email)

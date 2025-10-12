@@ -1,18 +1,20 @@
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from django.contrib.auth.models import User
-from UserInfo.models import UserInfo
+from UserInfo.models import User
+from UserInfo.serializer import UserInfoSerialazer
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def add_user_info(request):
-    info = UserInfo.objects.filter(user= request.user.id)
-    if info:
-        return Response('Info allready filled')
-    else:
-        UserInfo.objects.create(
-            user = request.user,
-            phone = request.data['phone'],
-            dob = request.data['phone'],
-        )
+@permission_classes([])
+def create_user(request):
+    data = request.data
+    if User.objects.filter(email= data['email']).exists():
+        Response({"detail": "User with same email allready exists!"}, status=400)
+    user = User.objects.create_user(email=data['email'], password= data['password'])
+    data['user']= user.id
+    serialized =  UserInfoSerialazer(data=data)
+    if serialized.is_valid():
+        serialized.save()
+        return Response(serialized.data)
+    return Response(serialized.errors, status=400)
