@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from UserInfo.models import User
+from UserInfo.models import User, UserInfo
 from UserInfo.serializer import UserInfoSerialazer
 
 @api_view(['POST'])
@@ -14,6 +14,16 @@ def create_user(request):
     user = User.objects.create_user(email=data['email'], password= data['password'])
     data['user']= user.id
     serialized =  UserInfoSerialazer(data=data)
+    if serialized.is_valid():
+        serialized.save()
+        return Response(serialized.data)
+    return Response(serialized.errors, status=400)
+
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+def update_user(reqest):
+    serialized = UserInfoSerialazer(UserInfo.objects.get(user=reqest.user.id), data=reqest.data, partial=True)
     if serialized.is_valid():
         serialized.save()
         return Response(serialized.data)
