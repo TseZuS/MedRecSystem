@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include, path
-from UserInfo.views import create_user, update_user
+from UserInfo.views import create_user, update_user, get_user_info
 from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
 
 urlpatterns = [
@@ -26,6 +26,7 @@ urlpatterns = [
         path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
         path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
         path('user/create', create_user),
-        path('user/update', update_user)
+        path('user/update', update_user),
+        path('user/info', get_user_info)
     ])),
 ]

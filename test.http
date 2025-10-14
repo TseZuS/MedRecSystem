@@ -39,3 +39,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
     "m_name": "",
     "l_name": "Okhapkin"
 }
+
+###
+
+GET  http://127.0.0.1:8000/api/user/info HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYwNDgyNTIyLCJpYXQiOjE3NjA0Nzg5MjIsImp0aSI6ImE4ZjU1OWJlY2VhMDRjY2ZhZDg3MWE1ODY5ZTE4M2Q5IiwidXNlcl9pZCI6IjMifQ.0ANZ_KVlMcmYyp7fuQs0AKM3dA_HP9pJYOQelZU3miQ
+
+{
+
+}
